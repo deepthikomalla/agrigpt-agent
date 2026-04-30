@@ -9,6 +9,7 @@ from langgraph.graph.message import add_messages
 from langchain_core.tools import StructuredTool
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from fastapi.responses import RedirectResponse
 from knowledge import PESTS_KNOWLEDGE_BASE, SCHEMES_KNOWLEDGE_BASE
 
 load_dotenv()
@@ -127,6 +128,10 @@ async def get_schemes(query: str):
 @app.post("/pests")
 async def get_pests(query: str):
     return {"results": PESTS_KNOWLEDGE_BASE}
+
+@app.get("/")
+async def redirect_to_docs():
+    return RedirectResponse(url="/docs")
 
 if __name__ == "__main__":
     import uvicorn
